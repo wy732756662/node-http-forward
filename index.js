@@ -6,7 +6,7 @@ var url = require('url')
 // server端口号
 var PORT = 8081;
 // 当前的url
-var forwardUrl = "https://beta.rishiqing.com;"
+var forwardUrl = "https://beta.rishiqing.com";
 // 要转发到新版的url
 // var forwardUrlNew = "https://betanew.rishiqing.com";
 var forwardUrlNew = "https://betanew.rishiqing.com";
