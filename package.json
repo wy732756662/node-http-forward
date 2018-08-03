@@ -1,0 +1,13 @@
+{
+  "name": "http-forward",
+  "description": "nodejs http forward app",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "4.16.3",
+    "body-parser": "1.18.3",
+    "url": "0.11.0",
+    "sync-request": "6.0.0",
+    "express-http-proxy": "1.2.0"
+  }
+}
