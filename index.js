@@ -130,6 +130,9 @@ function isOld(req) {
     if(req.url.indexOf("/task/v2/register")!=-1){
         return true;
     }
+    if(req.url.indexOf("/task/v1/register")!=-1){
+        return false;
+    }
     var headers = req.headers;
     var version = headers["version"];
     if (version!=undefined) {
