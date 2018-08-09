@@ -206,13 +206,13 @@ function isPhone(username) {
 function processRedirectLocation(location,isNew){
     if(isNew==undefined){
         return location
-            .replace(new RegExp(config.forwardUrlNewReg),config.forwardUrl)
-            .replace(new RegExp(config.forwardUrlOldReg),config.forwardUrl);
+            .replace(config.forwardUrlNewReg,config.forwardUrl)
+            .replace(config.forwardUrlOldReg,config.forwardUrl);
     }
     if(isNew){
-        return location.replace(new RegExp(config.forwardUrlNewReg),config.forwardUrl);
+        return location.replace(config.forwardUrlNewReg,config.forwardUrl);
     }
-    return location.replace(new RegExp(config.forwardUrlOldReg),config.forwardUrl);
+    return location.replace(config.forwardUrlOldReg,config.forwardUrl);
 }
 
 console.log('Listening on http://localhost:%s...', config.PORT);

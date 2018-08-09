@@ -9,9 +9,9 @@ var config = {
     // 要转发到新版的url
     forwardUrlOld: "https://betaold.rishiqing.com",
     // var forwardUrlNew = "https://betanew.rishiqing.com";
-    forwardUrlNewReg: "^http[s]?:\\/\\/betanew\\.rishiqing\\.com",
+    forwardUrlNewReg: new RegExp("^http[s]?:\\/\\/betanew\\.rishiqing\\.com"),
     // 要转发到新版的url
-    forwardUrlOldReg: "^http[s]?:\\/\\/betaold\\.rishiqing\\.com",
+    forwardUrlOldReg: new RegExp("^http[s]?:\\/\\/betaold\\.rishiqing\\.com"),
     // 登录地址
     loginAddress: "/task/j_spring_security_check",
 };
