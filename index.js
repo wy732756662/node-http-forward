@@ -16,9 +16,9 @@ var server = http.createServer(function(req, res) {
         var connector;
         // 如果请求头或者cookie里有新版的字段，则访问新版，有旧版字段返回旧版
         if(isOld(req)){
-            connector = forwardToUrl(req,res,config.forwardUrlOld+req.url);
+            connector = forwardToUrl(req,res,config.forwardUrlOld+req.url,true);
         }else{
-            connector = forwardToUrl(req,res,config.forwardUrlNew+req.url);
+            connector = forwardToUrl(req,res,config.forwardUrlNew+req.url,false);
         }
 
         req.pipe(connector, {end:true});
@@ -57,16 +57,15 @@ function forwardToLogin(req,res){
         }
         resHeaders["set-cookie"] = setCookie;
         // 登录请求返回的重定向地址
-        var location = config.forwardUrl+resHeaders['location'];
         // 将重定向地址过滤域名后放到返回的headers里让请求重定向
-        resHeaders['location'] = location.replace(isNew?config.forwardUrlNew:config.forwardUrlOld,"");
+        resHeaders['location'] = processRedirectLocation(resHeaders['location'],isNew);
         // 将headers放到response里
         res.writeHeader(loginRes.statusCode, resHeaders);
         res.end();
     });
 }
 // 将某一个接口（除了登录）转发到另外一个接口
-function forwardToUrl(req,res,forwardReqUrl){
+function forwardToUrl(req,res,forwardReqUrl,isOld){
     console.log("地址："+config.forwardUrl+req.url+"被代理到："+forwardReqUrl);
     var options = url.parse(forwardReqUrl);
     options.headers = req.headers;
@@ -101,9 +100,11 @@ function forwardToUrl(req,res,forwardReqUrl){
             case 302:
             case 303:
                 serverResponse.statusCode = 303;
-                serverResponse.headers['location'] = config.forwardUrl+serverResponse.headers['location'];
+                var headers = serverResponse.headers;
+                headers['location'] = processRedirectLocation(headers['location'],!isOld);
+
                 // console.log('\t-> Redirecting to ', serverResponse.headers['location']);
-                res.writeHeader(serverResponse.statusCode, serverResponse.headers);
+                res.writeHeader(serverResponse.statusCode, headers);
                 serverResponse.pipe(res, {end:true});
                 serverResponse.resume();
                 break;
@@ -200,6 +201,18 @@ function toLogin(req,loginUrl,json){
 function isPhone(username) {
     var myreg = /^[1][0-9]{10}$/;
     return myreg.test(username);
+}
+
+function processRedirectLocation(location,isNew){
+    if(isNew==undefined){
+        return location
+            .replace(new RegExp(config.forwardUrlNewReg),config.forwardUrl)
+            .replace(new RegExp(config.forwardUrlOldReg),config.forwardUrl);
+    }
+    if(isNew){
+        return location.replace(new RegExp(config.forwardUrlNewReg),config.forwardUrl);
+    }
+    return location.replace(new RegExp(config.forwardUrlOldReg),config.forwardUrl);
 }
 
 console.log('Listening on http://localhost:%s...', config.PORT);
