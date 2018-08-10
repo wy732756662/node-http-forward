@@ -8,6 +8,7 @@ var url = require('url')
 
 // 创建监听server
 var server = http.createServer(function(req, res) {
+    // 偶尔会报错挂掉，先暂时用try catch处理一下
     try {
         if(config.loginAddress == req.url){
             //登录接口单独处理
@@ -139,6 +140,10 @@ function isOld(req) {
         return false;
     }
     var headers = req.headers;
+    var token = headers["token"];
+    if(token!=undefined && token.indexOf("new_")!=-1){
+        return false;
+    }
     var version = headers["version"];
     if("latest"==version){
         return false;
@@ -175,6 +180,7 @@ function isExistNew(username){
     var res = request('GET', url);
     // 返回值
     var resStr = res.body.toString('utf-8')
+    log.info(resStr);
     var json = JSON.parse(resStr);
 
     log.info("是否新版用户存在："+json["isAccountExist"]);
