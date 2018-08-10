@@ -8,22 +8,26 @@ var url = require('url')
 
 // 创建监听server
 var server = http.createServer(function(req, res) {
-    if(config.loginAddress == req.url){
-        //登录接口单独处理
-        forwardToLogin(req, res)
-    }else{
-        req.pause();
-        // 转发
-        var connector;
-        // 如果请求头或者cookie里有新版的字段，则访问新版，有旧版字段返回旧版
-        if(isOld(req)){
-            connector = forwardToUrl(req,res,config.forwardUrlOld+req.url,true);
+    try {
+        if(config.loginAddress == req.url){
+            //登录接口单独处理
+            forwardToLogin(req, res)
         }else{
-            connector = forwardToUrl(req,res,config.forwardUrlNew+req.url,false);
-        }
+            req.pause();
+            // 转发
+            var connector;
+            // 如果请求头或者cookie里有新版的字段，则访问新版，有旧版字段返回旧版
+            if(isOld(req)){
+                connector = forwardToUrl(req,res,config.forwardUrlOld+req.url,true);
+            }else{
+                connector = forwardToUrl(req,res,config.forwardUrlNew+req.url,false);
+            }
 
-        req.pipe(connector, {end:true});
-        req.resume();
+            req.pipe(connector, {end:true});
+            req.resume();
+        }
+    }catch(e){
+        log.error("请求出错了");
     }
 });
 // 登录接口转发
