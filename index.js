@@ -3,7 +3,8 @@ var url = require('url')
     , https = require('https')
     , request = require('sync-request')
     , querystring = require('querystring')
-    , config = require('./config');
+    , config = require('./config')
+    , log = require('./log-config');
 
 // 创建监听server
 var server = http.createServer(function(req, res) {
@@ -66,7 +67,7 @@ function forwardToLogin(req,res){
 }
 // 将某一个接口（除了登录）转发到另外一个接口
 function forwardToUrl(req,res,forwardReqUrl,isOld){
-    console.log("地址："+config.forwardUrl+req.url+"被代理到："+forwardReqUrl);
+    log.info("地址："+config.forwardUrl+req.url+"被代理到："+forwardReqUrl);
     var options = url.parse(forwardReqUrl);
     options.headers = req.headers;
     options.method = req.method;
@@ -172,7 +173,7 @@ function isExistNew(username){
     var resStr = res.body.toString('utf-8')
     var json = JSON.parse(resStr);
 
-    console.log("是否新版用户存在："+json["isAccountExist"]);
+    log.info("是否新版用户存在："+json["isAccountExist"]);
     return json["isAccountExist"]
 }
 /*
@@ -181,7 +182,7 @@ function isExistNew(username){
     使用异步请求做不到
  */
 function toLogin(req,loginUrl,json){
-    console.log("地址："+config.forwardUrl+req.url+"被代理到："+loginUrl);
+    log.info("地址："+config.forwardUrl+req.url+"被代理到："+loginUrl);
     var body = ''
     for(var key in json){
         if(body!=''){
@@ -220,6 +221,6 @@ function processRedirectLocation(location,isNew){
     return location.replace(config.forwardUrlOldReg,config.forwardUrl);
 }
 
-console.log('Listening on http://localhost:%s...', config.PORT);
+log.info('Listening on http://localhost:'+config.PORT+'...');
 server.listen(config.PORT);
 
