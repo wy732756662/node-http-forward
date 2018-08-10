@@ -135,8 +135,10 @@ function isOld(req) {
     }
     var headers = req.headers;
     var version = headers["version"];
-    if (version!=undefined) {
-        return version!="latest";
+    if("latest"==version){
+        return false;
+    }else if("old"==version){
+        return true;
     }
     var isBackNewVersion = headers["isBackNewVersion"];
     if (isBackNewVersion!=undefined) {
