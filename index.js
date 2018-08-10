@@ -3,26 +3,32 @@ var url = require('url')
     , https = require('https')
     , request = require('sync-request')
     , querystring = require('querystring')
-    , config = require('./config');
+    , config = require('./config')
+    , log = require('./log-config');
 
 // 创建监听server
 var server = http.createServer(function(req, res) {
-    if(config.loginAddress == req.url){
-        //登录接口单独处理
-        forwardToLogin(req, res)
-    }else{
-        req.pause();
-        // 转发
-        var connector;
-        // 如果请求头或者cookie里有新版的字段，则访问新版，有旧版字段返回旧版
-        if(isOld(req)){
-            connector = forwardToUrl(req,res,config.forwardUrlOld+req.url,true);
+    // 偶尔会报错挂掉，先暂时用try catch处理一下
+    try {
+        if(config.loginAddress == req.url){
+            //登录接口单独处理
+            forwardToLogin(req, res)
         }else{
-            connector = forwardToUrl(req,res,config.forwardUrlNew+req.url,false);
-        }
+            req.pause();
+            // 转发
+            var connector;
+            // 如果请求头或者cookie里有新版的字段，则访问新版，有旧版字段返回旧版
+            if(isOld(req)){
+                connector = forwardToUrl(req,res,config.forwardUrlOld+req.url,true);
+            }else{
+                connector = forwardToUrl(req,res,config.forwardUrlNew+req.url,false);
+            }
 
-        req.pipe(connector, {end:true});
-        req.resume();
+            req.pipe(connector, {end:true});
+            req.resume();
+        }
+    }catch(e){
+        log.error("请求出错了");
     }
 });
 // 登录接口转发
@@ -66,7 +72,7 @@ function forwardToLogin(req,res){
 }
 // 将某一个接口（除了登录）转发到另外一个接口
 function forwardToUrl(req,res,forwardReqUrl,isOld){
-    console.log("地址："+config.forwardUrl+req.url+"被代理到："+forwardReqUrl);
+    log.info("地址："+config.forwardUrl+req.url+"被代理到："+forwardReqUrl);
     var options = url.parse(forwardReqUrl);
     options.headers = req.headers;
     options.method = req.method;
@@ -134,9 +140,15 @@ function isOld(req) {
         return false;
     }
     var headers = req.headers;
+    var token = headers["token"];
+    if(token!=undefined && token.indexOf("new_")!=-1){
+        return false;
+    }
     var version = headers["version"];
-    if (version!=undefined) {
-        return version!="latest";
+    if("latest"==version){
+        return false;
+    }else if("old"==version){
+        return true;
     }
     var isBackNewVersion = headers["isBackNewVersion"];
     if (isBackNewVersion!=undefined) {
@@ -168,9 +180,10 @@ function isExistNew(username){
     var res = request('GET', url);
     // 返回值
     var resStr = res.body.toString('utf-8')
+    log.info(resStr);
     var json = JSON.parse(resStr);
 
-    console.log("是否新版用户存在："+json["isAccountExist"]);
+    log.info("是否新版用户存在："+json["isAccountExist"]);
     return json["isAccountExist"]
 }
 /*
@@ -179,7 +192,7 @@ function isExistNew(username){
     使用异步请求做不到
  */
 function toLogin(req,loginUrl,json){
-    console.log("地址："+config.forwardUrl+req.url+"被代理到："+loginUrl);
+    log.info("地址："+config.forwardUrl+req.url+"被代理到："+loginUrl);
     var body = ''
     for(var key in json){
         if(body!=''){
@@ -218,6 +231,6 @@ function processRedirectLocation(location,isNew){
     return location.replace(config.forwardUrlOldReg,config.forwardUrl);
 }
 
-console.log('Listening on http://localhost:%s...', config.PORT);
+log.info('Listening on http://localhost:'+config.PORT+'...');
 server.listen(config.PORT);
 
