@@ -19,7 +19,11 @@ var server = http.createServer(function(req, res) {
             var connector;
             // 如果请求头或者cookie里有新版的字段，则访问新版，有旧版字段返回旧版
             if(isOld(req)){
-                connector = forwardToUrl(req,res,config.forwardUrlOld+req.url,true);
+                if(req.url.indexOf("/task/v1/team/invite/joinOut")!=-1){
+                    connector = forwardToUrl(req,res,config.forwardUrlOld+"/task/v2/invite/inviteJoinTeam",true);
+                }else{
+                    connector = forwardToUrl(req,res,config.forwardUrlOld+req.url,true);
+                }
             }else{
                 connector = forwardToUrl(req,res,config.forwardUrlNew+req.url,false);
             }
@@ -136,7 +140,8 @@ function isOld(req) {
     if(req.url.indexOf("/task/v2/register")!=-1){
         return true;
     }
-    if(req.url.indexOf("/task/v1/register")!=-1){
+    if(req.url.indexOf("/task/v1/register")!=-1 ||
+        req.url.indexOf("/task/v1/team/invite/verifyCode")!=-1){
         return false;
     }
     var headers = req.headers;
