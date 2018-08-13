@@ -1,9 +1,13 @@
+global.logger = require('./log-config')
+logger.error(`项目启动的文件已过时，不要使用这个入口文件！`)
+return
+
 var url = require('url')
     , http = require('http')
     , https = require('https')
     , request = require('sync-request')
     , querystring = require('querystring')
-    , config = require('./config')
+    , config = require('./config/config')
     , log = require('./log-config');
 
 // 创建监听server

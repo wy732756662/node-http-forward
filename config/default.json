@@ -1,0 +1,9 @@
+{
+  "PORT": 8081,
+  "forwardUrl": "http://localhost:8081",
+  "forwardUrlNew": "https://betanew.rishiqing.com",
+  "forwardUrlOld": "https://betaold.rishiqing.com",
+  "forwardUrlNewReg": "^http[s]?:\\/\\/betanew\\.rishiqing\\.com",
+  "forwardUrlOldReg": "^http[s]?:\\/\\/betaold\\.rishiqing\\.com",
+  "loginAddress": "/task/j_spring_security_check"
+}

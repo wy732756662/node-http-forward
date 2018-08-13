@@ -3,9 +3,22 @@
   "description": "nodejs http forward app",
   "version": "0.0.1",
   "private": true,
+  "scripts": {
+    "dev": "nodemon server/index.js",
+    "start": "node server/index.js"
+  },
   "dependencies": {
-    "url": "0.11.0",
+    "config": "^2.0.1",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.3",
+    "http-errors": "^1.7.0",
+    "http-proxy": "^1.17.0",
+    "log4js": "3.0.4",
+    "request": "^2.88.0",
     "sync-request": "6.0.0",
-    "log4js": "3.0.4"
+    "url": "0.11.0"
+  },
+  "devDependencies": {
+    "http-proxy-middleware": "^0.18.0"
   }
 }
