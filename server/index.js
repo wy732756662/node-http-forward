@@ -13,7 +13,9 @@ const server = http.createServer(function(req, res){
   const startTime = new Date().getTime()
   global.logger.info(`>>--接受到请求：${req.url}, 时间为：${startTime}`)
   req.rsqStartTime = startTime
-  if(config.loginAddress === req.url){
+  if(config.checkUrl === req.url){
+    res.end('success')
+  }else if(config.loginAddress === req.url){
     // 登录接口单独处理
     app(req, res)
   }else{
