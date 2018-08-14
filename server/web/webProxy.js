@@ -45,6 +45,9 @@ const proxy = function(req, res){
     // 判断是走新接口还是旧接口
     global.logger.info(`--${urlConfig.union.url}${req.url} 被代理到 ${urlConfig[rsqUrlType].url}`)
     global.logger.info(`||--准备代理mainProxy.web(...)：${req.url}, 已耗时：${new Date().getTime() - req.rsqStartTime}ms`)
+    if(req.url.indexOf("/task/v1/team/invite/joinOut")!=-1 && "old"==rsqUrlType){
+        req.url = "/task/v2/invite/inviteJoinTeam"
+    }
     mainProxy.web(req, res, {
       target: urlConfig[rsqUrlType].url,
       secure: false,

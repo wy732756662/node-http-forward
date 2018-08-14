@@ -11,6 +11,7 @@ function forwardToLogin(req, res, callback){
     if(err){
       return callback(err)
     }
+    global.logger.info(`>>--是否是新版用户：${isNew}`)
 
     // 需要处理到coolie里面的数据
     var version = isNew?"latest":"old";
@@ -22,6 +23,14 @@ function forwardToLogin(req, res, callback){
       global.logger.info(`||--httpClient.toLogin：${req.url}, 已耗时：${req.rsqStartTime}`)
       if(err){
         return callback(err)
+      }
+      // 访问服务器返回页面则直接返回
+      if(loginRes.statusCode==502){
+        res.status(500);
+        res.end();
+
+        callback()
+        return
       }
 
       try {
