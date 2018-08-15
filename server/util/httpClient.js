@@ -31,9 +31,12 @@ function isExistNew(username, callback){
 function toLogin(req, loginUrl, json, callback){
   log.info("地址："+config.forwardUrl+req.url+"被代理到："+loginUrl);
 
-  const formData = {}
-  for(let key in json){
-    formData[key] = json[key]
+  var body = ''
+  for(var key in json){
+      if(body!=''){
+          body += '&'
+      }
+      body += (key+"="+json[key])
   }
 
   request({
@@ -43,7 +46,7 @@ function toLogin(req, loginUrl, json, callback){
       "X-Requested-With": "XMLHttpRequest",
       "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
     },
-    formData: formData,
+    body: body,
     followRedirect: false
   }, function(err, resp, body){
     callback(err, resp, body)
