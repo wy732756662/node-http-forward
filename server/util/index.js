@@ -26,6 +26,7 @@ function isOld(req) {
       return false;
   }
   var headers = req.headers;
+  console.log(headers);
   var token = headers["token"];
   if(token && token.indexOf("new_") !== -1){
     return false;
