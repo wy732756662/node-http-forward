@@ -1,5 +1,4 @@
 var config = require('config')
-var log = require('../../log-config')
 // 验证是否是手机号
 function isPhone(username) {
   var myreg = /^[1][0-9]{10}$/;
@@ -27,7 +26,6 @@ function isOld(req) {
       return false;
   }
   var headers = req.headers;
-  log.info(headers);
   var token = headers["token"];
   if(token && token.indexOf("new_") !== -1){
     return false;
