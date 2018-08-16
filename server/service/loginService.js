@@ -7,7 +7,7 @@ function forwardToLogin(req, res, callback){
   var json = req.body
   // 通过用户名去新版判断用户应该在新版登录还是旧版
   httpClient.isExistNew(json["j_username"], function(err, isNew){
-    global.logger.info(`||--httpClient.isExistNew：${req.url}, 已耗时：${req.rsqStartTime}`)
+    // global.logger.info(`||--httpClient.isExistNew：${req.url}, 已耗时：${req.rsqStartTime}`)
     if(err){
       return callback(err)
     }
@@ -20,7 +20,7 @@ function forwardToLogin(req, res, callback){
 
     // 发送登录请求
     httpClient.toLogin(req, urlPrefix+req.url, json, function(err, loginRes, body){
-      global.logger.info(`||--httpClient.toLogin：${req.url}, 已耗时：${req.rsqStartTime}`)
+      // global.logger.info(`||--httpClient.toLogin：${req.url}, 已耗时：${req.rsqStartTime}`)
       if(err){
         return callback(err)
       }

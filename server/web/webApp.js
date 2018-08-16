@@ -15,9 +15,9 @@ app.use(cookieParser())
 
 //登录接口单独处理
 app.post(config.loginAddress, function(req, res, next){
-  global.logger.info(`||--处理登录请求：${req.url}, 已耗时：${req.rsqStartTime}`)
+  // global.logger.info(`||--处理登录请求：${req.url}, 已耗时：${req.rsqStartTime}`)
   loginService(req, res, function(err){
-    global.logger.info(`||--结束处理登录请求：${req.url}, 已耗时：${req.rsqStartTime}`)
+    // global.logger.info(`||--结束处理登录请求：${req.url}, 已耗时：${req.rsqStartTime}`)
     if(err){
       next(err)
     }

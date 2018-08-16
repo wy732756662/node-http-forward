@@ -11,7 +11,7 @@ app.set('port', port)
 
 const server = http.createServer(function(req, res){
   const startTime = new Date().getTime()
-  global.logger.info(`>>--接受到请求：${req.url}, 时间为：${startTime}`)
+  // global.logger.info(`>>--接受到请求：${req.url}, 时间为：${startTime}`)
   req.rsqStartTime = startTime
   if(config.checkUrl === req.url){
     res.end('success')
@@ -22,7 +22,7 @@ const server = http.createServer(function(req, res){
     // 其他接口走反向代理
     proxy(req, res)
   }
-  global.logger.info(`>>--请求结束：${req.url}, 已耗时：${new Date().getTime() - req.rsqStartTime}ms`)
+  // global.logger.info(`>>--请求结束：${req.url}, 已耗时：${new Date().getTime() - req.rsqStartTime}ms`)
 })
 
 function onListening() {
