@@ -16,12 +16,16 @@ app.use(cookieParser())
 //登录接口单独处理
 app.post(config.loginAddress, function(req, res, next){
   // global.logger.info(`||--处理登录请求：${req.url}, 已耗时：${req.rsqStartTime}`)
-  loginService.forwardToLogin(req, res, function(err){
-    // global.logger.info(`||--结束处理登录请求：${req.url}, 已耗时：${req.rsqStartTime}`)
-    if(err){
-      next(err)
-    }
-  })
+  try {
+    loginService.forwardToLogin(req, res, function(err){
+      // global.logger.info(`||--结束处理登录请求：${req.url}, 已耗时：${req.rsqStartTime}`)
+      if(err){
+        next(err)
+      }
+    })
+  } catch (err) {
+    next(err)
+  }
 })
 
 
@@ -31,12 +35,16 @@ Object.keys(config.oauth).forEach(function (oauthKey) {
     const url = oauthValue[action]["url"];
     const originKey = oauthValue[action]["key"];
     app.all(url, function(req, res, next){
-      const paramsKey = getParamsKey(oauthKey)
-      loginService.forwardToOauthLogin(req, res, paramsKey, originKey, function(err){
-        if(err){
-          next(err)
-        }
-      })
+      try {
+        const paramsKey = getParamsKey(oauthKey)
+        loginService.forwardToOauthLogin(req, res, paramsKey, originKey, function(err){
+          if(err){
+            next(err)
+          }
+        })
+      } catch (err) {
+        next(err)
+      }
     })
   });
 });

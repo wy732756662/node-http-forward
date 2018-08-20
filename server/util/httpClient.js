@@ -15,7 +15,7 @@ function isExistNew(username, callback){
   url += username;
   // 测试是否新版用户存在
   request({ uri: url, json: true }, function(err, resp, json){
-    log.info("是否新版用户存在："+json["isAccountExist"]);
+    // log.info("是否新版用户存在："+json["isAccountExist"]);
     return callback(err, json["isAccountExist"])
   });
 }
@@ -26,8 +26,8 @@ function isExistNewOauth(key,value,callback){
 
     // 测试是否新版用户存在
   request({ uri: url, json: true }, function(err, resp, json){
-    console.log(json);
-    log.info("是否新版第三方用户存在："+json["isAccountExist"]);
+    // console.log(json);
+    // log.info("是否新版第三方用户存在："+json["isAccountExist"]);
     return callback(err, json["isAccountExist"])
   });
 }
