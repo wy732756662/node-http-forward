@@ -18,23 +18,25 @@ function processRedirectLocation(location,isNew){
 
 // 通过请求的headers来判断当前请求是应该去新版还是旧版
 function isOld(req) {
-  if(req.url.indexOf("/task/rsqAttach/userAvatar") !== -1
+  if(req.url.indexOf("/task/rsqAttach/userAvatar") !== -1 &&
+      req.url.indexOf(config.newTokenPrefix) !== -1
   ){
-      return req.url.indexOf(config.newTokenPrefix) === -1;
+      return false;
   }
   if(req.url.indexOf("/task/v2/register") !== -1
   ){
     return true;
   }
-  if(req.url.indexOf("/task/v1/register")!=-1 ||
-      req.url.indexOf("/task/v1/team/invite/verifyCode")!=-1 ||
+  if(req.url.indexOf("/task/v1/register")!==-1 ||
+      req.url.indexOf("/task/v1/team/invite/verifyCode")!==-1 ||
       req.url.indexOf("/task/login/success") !== -1 ||
       req.url.indexOf("/task/v1/sina/loginPage") !== -1 ||
       req.url.indexOf("/task/v1/weixin/loginPage") !== -1 ||
       req.url.indexOf("/task/v1/qq/loginPage") !== -1 ||
       req.url.indexOf("/task/sinaOauth/afterLogin") !== -1 ||
       req.url.indexOf("/task/weixinOauth/afterLogin") !== -1 ||
-      req.url.indexOf("/task/qqOauth/afterLogin") !== -1
+      req.url.indexOf("/task/qqOauth/afterLogin") !== -1 ||
+      req.url.indexOf("/task/v1/findBackPassword") !== -1
   ){
       return false;
   }

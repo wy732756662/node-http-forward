@@ -41,7 +41,7 @@ function isExistNewOauth(key,value,callback){
  * @returns {*}
  */
 function toLogin(req, loginUrl, json, callback){
-  log.info("地址："+config.forwardUrl+req.url+"被代理到："+loginUrl);
+  log.warn("地址："+config.forwardUrl+req.url+"被代理到："+loginUrl);
 
   var body = ''
   for(var key in json){
@@ -73,7 +73,7 @@ function toLogin(req, loginUrl, json, callback){
  * @returns {*}
  */
 function toOauthLogin(req, loginUrl, json, callback){
-  log.info("地址："+config.forwardUrl+req.url+"被代理到："+loginUrl);
+  log.warn("地址："+config.forwardUrl+req.url+"被代理到："+loginUrl);
 
   request({
     method: req.method,
