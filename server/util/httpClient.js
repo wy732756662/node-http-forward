@@ -23,7 +23,6 @@ function isExistNew(username, callback){
 // 测试新版第三方用户是否存在
 function isExistNewOauth(key,value,callback){
   var url = config.forwardUrlNew + `${config.verifyOauthExistUrl}?${key}=${value}`;
-
     // 测试是否新版用户存在
   request({ uri: url, json: true }, function(err, resp, json){
     // console.log(json);

@@ -13,7 +13,7 @@
   "loginAddress": "/task/j_spring_security_check",
   "checkUrl": "/check",
   "oauth": {
-    "weixin": {
+    "weiXin": {
       "findWxOpenIdByUser": {
         "url": "/task/weixinOauth/findWxOpenIdByUser",
         "key": "unionid"
@@ -21,6 +21,10 @@
       "phoneLoginWx": {
         "url": "/task/weixinOauth/phoneLoginWx",
         "key": "unionid"
+      },
+      "androidLogin": {
+        "url": "/task/v2/android/phoneOauth/login",
+        "key": "unionId"
       }
     },
     "sina": {
@@ -59,7 +63,7 @@
         "key": "openId"
       }
     },
-    "xiaomi": {
+    "xiaoMi": {
 
     }
   },

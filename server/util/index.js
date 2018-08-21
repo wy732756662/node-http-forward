@@ -69,6 +69,21 @@ function isOld(req) {
   return isOld;
 }
 
+// 获取第三方登录前验证新旧版接口的参数
+function getParamsKey(oauthKey){
+    if("weiXin"===oauthKey){
+        return "wxUnionid";
+    }else if("sina"==oauthKey){
+        return "sinaOpenid";
+    }else if("qq"==oauthKey){
+        return "qqOpenid";
+    }else if("xiaoMi"==oauthKey){
+        return "xmOpenid";
+    }
+    return oauthKey
+}
+
 module.exports.isPhone = isPhone
 module.exports.isOld = isOld
+module.exports.getParamsKey = getParamsKey
 module.exports.processRedirectLocation = processRedirectLocation

@@ -36,35 +36,17 @@ Object.keys(config.oauth).forEach(function (oauthKey) {
     const originKey = oauthValue[action]["key"];
     app.all(url, function(req, res, next){
       try {
-        const paramsKey = getParamsKey(oauthKey)
-        loginService.forwardToOauthLogin(req, res, paramsKey, originKey, function(err){
+        loginService.forwardToOauthLogin(req, res, oauthKey, originKey, function(err){
           if(err){
-            next(err)
+              next(err)
           }
         })
       } catch (err) {
-        next(err)
+          next(err)
       }
     })
   });
 });
-
-function getParamsKey(oauthKey){
-  if("weixin"===oauthKey){
-    return "wxUnionid";
-  }else if("sina"==oauthKey){
-      return "sinaOpenid";
-  }else if("qq"==oauthKey){
-      return "qqOpenid";
-  }else if("xiaomi"==oauthKey){
-      return "xmOpenid";
-  }
-  return oauthKey
-}
-
-
-
-
 
 
 // 其他路径返回404
