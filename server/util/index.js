@@ -18,6 +18,10 @@ function processRedirectLocation(location,isNew){
 
 // 通过请求的headers来判断当前请求是应该去新版还是旧版
 function isOld(req) {
+  if(req.url.indexOf("/task/rsqAttach/userAvatar") !== -1
+  ){
+      return req.url.indexOf(config.newTokenPrefix) === -1;
+  }
   if(req.url.indexOf("/task/v2/register") !== -1
   ){
     return true;
@@ -36,7 +40,7 @@ function isOld(req) {
   }
   var headers = req.headers;
   var token = headers["token"];
-  if(token && token.indexOf("new_") !== -1){
+  if(token && token.indexOf(config.newTokenPrefix) !== -1){
     return false;
   }
   var version = headers["version"];

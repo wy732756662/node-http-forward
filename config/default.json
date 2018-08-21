@@ -1,11 +1,68 @@
 {
   "logLevel": "all",
   "PORT": 8081,
-  "forwardUrl": "http://localhost:8081",
+  "forwardUrl": "https://beta.rishiqing.com",
   "forwardUrlNew": "https://betanew.rishiqing.com",
+//  "forwardUrlNew": "https://prodnew.rishiqing.com",
+//  "forwardUrlOld": "https://prodold.rishiqing.com",
   "forwardUrlOld": "https://betaold.rishiqing.com",
   "forwardUrlNewReg": "^http[s]?:\\/\\/betanew\\.rishiqing\\.com",
+//  "forwardUrlNewReg": "^http[s]?:\\/\\/127\\.0\\.0\\.1:8088",
+//  "forwardUrlOldReg": "^http[s]?:\\/\\/127\\.0\\.0\\.1:8080",
   "forwardUrlOldReg": "^http[s]?:\\/\\/betaold\\.rishiqing\\.com",
   "loginAddress": "/task/j_spring_security_check",
-  "checkUrl": "/check"
+  "checkUrl": "/check",
+  "oauth": {
+    "weixin": {
+      "findWxOpenIdByUser": {
+        "url": "/task/weixinOauth/findWxOpenIdByUser",
+        "key": "unionid"
+      },
+      "phoneLoginWx": {
+        "url": "/task/weixinOauth/phoneLoginWx",
+        "key": "unionid"
+      }
+    },
+    "sina": {
+      "findSinaOpenId": {
+        "url": "/task/sinaOauth/findSinaOpenId",
+        "key": "sinaUid"
+      },
+      "loginBySina": {
+        "url": "/task/sinaOauth/loginBySina",
+        "key": "sinaUid"
+      },
+      "phoneLoginSina": {
+        "url": "/task/sinaOauth/phoneLoginSina",
+        "key": "sinaUid"
+      },
+      "verifySinaBinding": {
+        "url": "/task/sinaOauth/verifySinaBinding",
+        "key": "openId"
+      }
+    },
+    "qq": {
+      "findQqOpenId": {
+        "url": "/task/qqOauth/findQqOpenId",
+        "key": "openid"
+      },
+      "loginByQq": {
+        "url": "/task/qqOauth/loginByQq",
+        "key": "openid"
+      },
+      "phoneLoginQq": {
+        "url": "/task/qqOauth/phoneLoginQq",
+        "key": "openid"
+      },
+      "verifyQqBinding": {
+        "url": "/task/qqOauth/verifyQqBinding",
+        "key": "openId"
+      }
+    },
+    "xiaomi": {
+
+    }
+  },
+  "verifyOauthExistUrl": "/task/v1/register/isOauthRegistered",
+  "newTokenPrefix": "new_"
 }
