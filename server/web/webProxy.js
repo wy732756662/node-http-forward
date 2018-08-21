@@ -34,6 +34,14 @@ mainProxy.on('proxyRes', function(proxyRes, req, res){
     proxyRes.headers['location'] = util.processRedirectLocation(proxyRes.headers['location'],  req.rsqUrlType === 'new')
   }
 })
+mainProxy.on('error', function(err, req, res){
+  global.logger.error(`--proxy error: ${err.stack}`)
+  res.writeHead(500, {
+    'Content-Type': 'text/plain'
+  });
+
+  res.end('Something went wrong.');
+})
 
 //  proxy主方法，用来走代理
 const proxy = function(req, res){
@@ -54,7 +62,7 @@ const proxy = function(req, res){
       followAllRedirects: true
     });
   }catch(err){
-    global.logger.error(`proxy error: url: ${req.url}, \nerror: ${err.stack}`)
+    global.logger.error(`==proxy error: url: ${req.url}, \nerror: ${err.stack}`)
   }
 }
 

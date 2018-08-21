@@ -1,4 +1,5 @@
 {
+  "logLevel": "all",
   "PORT": 8081,
   "forwardUrl": "http://localhost:8081",
   "forwardUrlNew": "https://betanew.rishiqing.com",

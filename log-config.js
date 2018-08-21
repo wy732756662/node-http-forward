@@ -1,4 +1,7 @@
+const config = require('config')
 var log4js = require('log4js');
+
+const level = config.logLevel || 'all'  //使用配置文件中的logLevel，如果没有配置，默认log级别为all
 log4js.configure({
     appenders: {
         xcLogFile: {
@@ -15,15 +18,15 @@ log4js.configure({
     categories: {
         default: {
             appenders: ['xcLogFile','xcLogConsole'],
-            level: 'all'
+            level: log4js.levels.getLevel(level)
         },
         xcLogFile: {
             appenders: ['xcLogFile'],
-            level: 'all'
+            level: log4js.levels.getLevel(level)
         },
         xcLogConsole: {
             appenders: ['xcLogConsole'],
-            level: log4js.levels.ALL
+            level: log4js.levels.getLevel(level)
         }
     }
 });
