@@ -19,7 +19,11 @@ function isExistNew(username, callback){
       return callback(err)
     }
     // log.info("是否新版用户存在："+json["isAccountExist"]);
-    return callback(err, json["isAccountExist"])
+    if(json){
+      return callback(err, json["isAccountExist"])
+    }else{
+      return callback(new Error('----isExistNew response body empty'))
+    }
   });
 }
 
@@ -31,9 +35,12 @@ function isExistNewOauth(key,value,callback){
     if(err){
       return callback(err)
     }
-    // console.log(json);
     // log.info("是否新版第三方用户存在："+json["isAccountExist"]);
-    return callback(err, json["isAccountExist"])
+    if(json){
+      return callback(err, json["isAccountExist"])
+    }else{
+      return callback(new Error('----isExistNewOauth response body empty'))
+    }
   });
 }
 
