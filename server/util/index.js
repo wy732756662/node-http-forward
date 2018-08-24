@@ -41,8 +41,8 @@ function isOld(req) {
       return false;
   }
   // onlyOffice接口通过参数进行转换
-  if(req.url.indexOf("/task/v1/onlyOffice/callbackDeal") ||
-      req.url.indexOf("/task/v1/onlyOffice/callbackDeal")
+  if(req.url.indexOf("/task/v1/onlyOffice/callbackDeal")!==-1 ||
+      req.url.indexOf("/task/v1/onlyOffice/callbackDeal")!==-1
   ){
     return req.url.indexOf("isBackNewVersion=true")===-1
   }
