@@ -42,7 +42,7 @@ function isOld(req) {
   }
   // onlyOffice接口通过参数进行转换
   if(req.url.indexOf("/task/v1/onlyOffice/callbackDeal")!==-1 ||
-      req.url.indexOf("/task/v1/onlyOffice/callbackDeal")!==-1
+      req.url.indexOf("/task/v1/onlyOffice/getFileUrl")!==-1
   ){
     return req.url.indexOf("isBackNewVersion=true")===-1
   }
