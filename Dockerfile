@@ -17,20 +17,9 @@ COPY . .
 RUN npm install --registry=https://registry.npm.taobao.org
 
 # install alinode to profile performance
-# use bash instead of sh
-RUN rm /bin/sh && ln -s /bin/bash /bin/sh
-# install alinode
-RUN wget -O- https://raw.githubusercontent.com/aliyun-node/tnvm/master/install.sh | bash && \
-    source ~/.bashrc && \
-    tnvm install alinode-v4.2.2 && \
-    tnvm use alinode-v4.2.2 && \
-    npm install @alicloud/agenthub -g && \
-    which node && \
-    which agenthub && \
-    echo 'success'
-
-ENV ENABLE_NODE_LOG=YES
+RUN npm install @alicloud/agenthub -g
 
 # start alinode agent and index
 EXPOSE 3000
-CMD ["/bin/bash", "-c", "startup.sh"]
+RUN chmod +x startup.sh
+CMD ["/bin/bash", "-c", "./startup.sh"]
