@@ -10,6 +10,7 @@
   "dependencies": {
     "config": "^2.0.1",
     "cookie-parser": "^1.4.3",
+    "easy-monitor": "^2.2.3",
     "express": "^4.16.3",
     "http-errors": "^1.7.0",
     "http-proxy": "^1.17.0",
