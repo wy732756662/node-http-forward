@@ -1,7 +1,7 @@
 var request = require('request')
 
 var config = require('config')
-var log = require('../../log-config')
+var log = require('../../log-config').default
 var util = require('./index')
 
 //  设置5s的超时时间
