@@ -18,6 +18,7 @@ RUN npm install --registry=https://registry.npm.taobao.org
 
 # alinode for performance profiling
 RUN npm install @alicloud/agenthub -g
+ENV ENABLE_NODE_LOG=YES
 
 # start alinode agent and index
 EXPOSE 3000
