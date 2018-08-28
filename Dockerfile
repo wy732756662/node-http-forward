@@ -16,10 +16,6 @@ WORKDIR /usr/src/rishiqing-http-navigator
 COPY . .
 RUN npm install --registry=https://registry.npm.taobao.org
 
-# install alinode to profile performance
-RUN npm install @alicloud/agenthub -g
-
 # start alinode agent and index
 EXPOSE 3000
-RUN chmod +x startup.sh
-CMD ["/bin/bash", "-c", "./startup.sh"]
+CMD ["node", "server/index.js"]
