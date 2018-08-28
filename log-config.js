@@ -30,4 +30,5 @@ log4js.configure({
         }
     }
 });
-module.exports = log4js.getLogger('log_file');
+module.exports.default = log4js.getLogger('xcLogFile');
+module.exports.console = log4js.getLogger('xcLogConsole');

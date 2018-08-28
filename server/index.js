@@ -1,4 +1,4 @@
-global.logger = require('../log-config')
+global.logger = require('../log-config').default
 
 const http = require('http')
 

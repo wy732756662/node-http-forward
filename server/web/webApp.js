@@ -5,6 +5,7 @@ const app = express()
 
 const config = require('config')
 const loginService = require('../service/loginService')
+const consoleLogger = require('../../log-config').console
 
 // json格式解析
 app.use(express.json())
@@ -58,7 +59,7 @@ app.use(function (err, req, res, next) {
   const status = err.status || 500
   const message = err.message || 'error occurred in http forward layer'
   if(err.status === 500){
-    global.logger.error('app error: \n' + err.stack)
+    consoleLogger.error(`app url: ${req.url}, error: \n ${err.stack}`)
   }
   res.status(status);
   res.end(message);

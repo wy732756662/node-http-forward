@@ -1,5 +1,6 @@
 const url = require('url')
 const httpProxy = require('http-proxy')
+const consoleLogger = require('../../log-config').console
 
 const config = require('config')
 const util = require('../util')
@@ -38,7 +39,7 @@ mainProxy.on('proxyRes', function(proxyRes, req, res){
   }
 })
 mainProxy.on('error', function(err, req, res){
-  global.logger.error(`--proxy error: ${err.stack}`)
+  consoleLogger.error(`--proxy url: ${req.url}, \nerror: ${err.stack}`)
   res.writeHead(500, {
     'Content-Type': 'text/plain'
   });
@@ -67,7 +68,7 @@ const proxy = function(req, res){
       timeout: INCOMING_TIMEOUT_MILLS
     });
   }catch(err){
-    global.logger.error(`==proxy error: url: ${req.url}, \nerror: ${err.stack}`)
+    consoleLogger.error(`==proxy error: url: ${req.url}, \nerror: ${err.stack}`)
   }
 }
 
