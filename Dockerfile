@@ -10,13 +10,13 @@ ENV TIME_ZONE=Asia/Shanghai
 RUN ln -snf /usr/share/zoneinfo/$TIME_ZONE /etc/localtime && echo $TIME_ZONE > /etc/timezone
 
 # install alinode
-RUN wget -O- https://raw.githubusercontent.com/aliyun-node/tnvm/master/install.sh | bash &&
-    source ~/.bashrc &&
-    tnvm install alinode-v4.2.2 &&
-    tnvm use alinode-v4.2.2 &&
-    npm install @alicloud/agenthub -g &&
-    which node &&
-    which agenthub &&
+RUN wget -O- https://raw.githubusercontent.com/aliyun-node/tnvm/master/install.sh | bash && \
+    source ~/.bashrc && \
+    tnvm install alinode-v4.2.2 && \
+    tnvm use alinode-v4.2.2 && \
+    npm install @alicloud/agenthub -g && \
+    which node && \
+    which agenthub && \
     agenthub start config/alinode.json
 
 ENV ENABLE_NODE_LOG=YES
