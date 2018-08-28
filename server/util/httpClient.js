@@ -4,6 +4,9 @@ var config = require('config')
 var log = require('../../log-config')
 var util = require('./index')
 
+//  设置5s的超时时间
+const TIMEOUT_MILLS = 5 * 1000
+
 // 测试新版用户是否存在
 function isExistNew(username, callback){
   var url = config.forwardUrlNew + "/task/v1/register/isRegistered";
@@ -14,7 +17,7 @@ function isExistNew(username, callback){
   }
   url += username;
   // 测试是否新版用户存在
-  request({ uri: url, json: true }, function(err, resp, json){
+  request({ uri: url, json: true, timeout: TIMEOUT_MILLS }, function(err, resp, json){
     if(err){
       return callback(err)
     }
@@ -31,7 +34,7 @@ function isExistNew(username, callback){
 function isExistNewOauth(key,value,callback){
   var url = config.forwardUrlNew + `${config.verifyOauthExistUrl}?${key}=${value}`;
     // 测试是否新版用户存在
-  request({ uri: url, json: true }, function(err, resp, json){
+  request({ uri: url, json: true, timeout: TIMEOUT_MILLS }, function(err, resp, json){
     if(err){
       return callback(err)
     }
@@ -71,7 +74,8 @@ function toLogin(req, loginUrl, json, callback){
       "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
     },
     body: body,
-    followRedirect: false
+    followRedirect: false,
+    timeout: TIMEOUT_MILLS
   }, function(err, resp, body){
     callback(err, resp, body)
   })
@@ -95,7 +99,8 @@ function toOauthLogin(req, loginUrl, json, callback){
       "Content-Type": "application/json, text/javascript, */*; q=0.01"
     },
     json: json,
-    followRedirect: false
+    followRedirect: false,
+    timeout: TIMEOUT_MILLS
   }, function(err, resp, body){
     callback(err, resp, body)
   })

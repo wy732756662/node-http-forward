@@ -20,6 +20,9 @@ const urlConfig = {
   }
 }
 
+const INCOMING_TIMEOUT_MILLS = 60 * 1000
+const PROXY_TIMEOUT_MILLS = 60 * 1000
+
 //  新建代理
 const mainProxy = httpProxy.createProxyServer()
 //  配置监听，用来在request时对请求做修改
@@ -59,7 +62,9 @@ const proxy = function(req, res){
     mainProxy.web(req, res, {
       target: urlConfig[rsqUrlType].url,
       secure: false,
-      followAllRedirects: true
+      followAllRedirects: true,
+      proxyTimeout: PROXY_TIMEOUT_MILLS,
+      timeout: INCOMING_TIMEOUT_MILLS
     });
   }catch(err){
     global.logger.error(`==proxy error: url: ${req.url}, \nerror: ${err.stack}`)
