@@ -1,4 +1,5 @@
 var config = require('config')
+const consoleLogger = require('../../log-config').console
 // 验证是否是手机号
 function isPhone(username) {
   var myreg = /^[1][0-9]{10}$/;
@@ -89,7 +90,18 @@ function getParamsKey(oauthKey){
     return oauthKey
 }
 
+function logLowRequest(req){
+  if(!req.rsqTime){
+    return consoleLogger.warn(`no rsqTime found, can not log low request!`)
+  }
+  const mills = new Date().getTime() - req.rsqTime
+  if(mills > config.lowRequestMills){
+    consoleLogger.warn(`low request: ${req.url}, mills: ${mills}`)
+  }
+}
+
 module.exports.isPhone = isPhone
 module.exports.isOld = isOld
 module.exports.getParamsKey = getParamsKey
 module.exports.processRedirectLocation = processRedirectLocation
+module.exports.logLowRequest = logLowRequest

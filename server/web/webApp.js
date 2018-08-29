@@ -6,6 +6,7 @@ const app = express()
 const config = require('config')
 const loginService = require('../service/loginService')
 const consoleLogger = require('../../log-config').console
+const util = require('../util')
 
 // json格式解析
 app.use(express.json())
@@ -19,7 +20,8 @@ app.post(config.loginAddress, function(req, res, next){
   // global.logger.info(`||--处理登录请求：${req.url}, 已耗时：${req.rsqStartTime}`)
   try {
     loginService.forwardToLogin(req, res, function(err){
-      // global.logger.info(`||--结束处理登录请求：${req.url}, 已耗时：${req.rsqStartTime}`)
+      //  记录慢请求的时间
+      util.logLowRequest(req)
       if(err){
         next(err)
       }
@@ -38,6 +40,8 @@ Object.keys(config.oauth).forEach(function (oauthKey) {
     app.all(url, function(req, res, next){
       try {
         loginService.forwardToOauthLogin(req, res, oauthKey, originKey, function(err){
+          //  记录慢请求的时间
+          util.logLowRequest(req)
           if(err){
               next(err)
           }

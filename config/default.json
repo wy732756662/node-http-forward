@@ -3,6 +3,7 @@
     "host": "127.0.0.1",
     "port": 30000
   },
+  "lowRequestMills": 2000,
   "logLevel": "all",
   "PORT": 8081,
   "forwardUrl": "https://beta.rishiqing.com",

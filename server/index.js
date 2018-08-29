@@ -20,9 +20,8 @@ Object.keys(config.oauth).forEach(function (oauthKey) {
 });
 
 const server = http.createServer(function(req, res){
-  const startTime = new Date().getTime()
   // global.logger.info(`>>--接受到请求：${req.url}, 时间为：${startTime}`)
-  req.rsqStartTime = startTime
+  req.rsqTime = new Date().getTime()
   if(config.checkUrl === req.url){
     res.end('success')
   }else if(loginUrlArray.indexOf(req.url)!=-1){
