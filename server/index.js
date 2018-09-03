@@ -41,17 +41,17 @@ function onListening() {
 server.on('listening', onListening)
 server.listen(port)
 
-const easyMonitor = require('easy-monitor');
-easyMonitor({
-  cluster: true,
-  bootstrap: 'embrace',
-  // project_name: 'Game Boy',
-  /**
-   @param {string} tcp_host 填写你部署的 dashboard 进程所在的服务器 ip
-   @param {number} tcp_port 填写你部署的 dashboard 进程所在的服务器 端口
-   **/
-  embrace: {
-    tcp_host: config.easyMonitor.host,
-    tcp_port: config.easyMonitor.port
-  }
-});
+// const easyMonitor = require('easy-monitor');
+// easyMonitor({
+//   cluster: true,
+//   bootstrap: 'embrace',
+//   // project_name: 'Game Boy',
+//   /**
+//    @param {string} tcp_host 填写你部署的 dashboard 进程所在的服务器 ip
+//    @param {number} tcp_port 填写你部署的 dashboard 进程所在的服务器 端口
+//    **/
+//   embrace: {
+//     tcp_host: config.easyMonitor.host,
+//     tcp_port: config.easyMonitor.port
+//   }
+// });

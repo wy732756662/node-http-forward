@@ -21,8 +21,8 @@ const urlConfig = {
   }
 }
 
-const INCOMING_TIMEOUT_MILLS = 60 * 1000
-const PROXY_TIMEOUT_MILLS = 60 * 1000
+//  连接后端代理的超时时间，超过这个时间将返回socket hang up的错误
+const PROXY_TIMEOUT_MILLS = config.proxyTimeoutMills
 
 //  新建代理
 const mainProxy = httpProxy.createProxyServer()
@@ -43,7 +43,7 @@ mainProxy.on('proxyRes', function(proxyRes, req, res){
       proxyRes.headers['location'] = util.processRedirectLocation(proxyRes.headers['location'],  req.rsqUrlType === 'new')
     }
     //  记录慢请求的时间
-    util.logLowRequest(req)
+    util.logSlowRequest(req, proxyRes)
   }catch(err){
     consoleLogger.error(`--on proxyRes url: ${req.url}, \nerror: ${err.stack}`)
   }
@@ -74,8 +74,7 @@ const proxy = function(req, res){
       target: urlConfig[rsqUrlType].url,
       secure: false,
       followAllRedirects: true,
-      proxyTimeout: PROXY_TIMEOUT_MILLS,
-      timeout: INCOMING_TIMEOUT_MILLS
+      proxyTimeout: PROXY_TIMEOUT_MILLS
     });
   }catch(err){
     consoleLogger.error(`==proxy error: url: ${req.url}, \nerror: ${err.stack}`)

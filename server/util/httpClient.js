@@ -9,40 +9,62 @@ const TIMEOUT_MILLS = 5 * 1000
 
 // 测试新版用户是否存在
 function isExistNew(username, callback){
-  var url = config.forwardUrlNew + "/task/v1/register/isRegistered";
-  if(util.isPhone(username)){
-    url += "?phoneNumber="
-  }else{
-    url += "?email="
+  try{
+    var url = config.forwardUrlNew + "/task/v1/register/isRegistered";
+    if(util.isPhone(username)){
+      url += "?phoneNumber="
+    }else{
+      url += "?email="
+    }
+    url += username;
+  }catch (err){
+    return callback(err)
   }
-  url += username;
   // 测试是否新版用户存在
   request({ uri: url, json: true, timeout: TIMEOUT_MILLS }, function(err, resp, json){
-    if(err){
+    try{
+      if(err){
+        return callback(err)
+      }
+      if(resp.statusCode >= 400){
+        return callback(new Error(`isExistNew: ${resp.statusCode}`))
+      }
+      // log.info("是否新版用户存在："+json["isAccountExist"]);
+      if(json){
+        return callback(err, json["isAccountExist"])
+      }else{
+        return callback(new Error('----isExistNew response body empty'))
+      }
+    }catch(err){
       return callback(err)
-    }
-    // log.info("是否新版用户存在："+json["isAccountExist"]);
-    if(json){
-      return callback(err, json["isAccountExist"])
-    }else{
-      return callback(new Error('----isExistNew response body empty'))
     }
   });
 }
 
 // 测试新版第三方用户是否存在
 function isExistNewOauth(key,value,callback){
-  var url = config.forwardUrlNew + `${config.verifyOauthExistUrl}?${key}=${value}`;
+  try{
+    var url = config.forwardUrlNew + `${config.verifyOauthExistUrl}?${key}=${value}`;
+  }catch(err){
+    return callback(err)
+  }
     // 测试是否新版用户存在
   request({ uri: url, json: true, timeout: TIMEOUT_MILLS }, function(err, resp, json){
-    if(err){
+    try{
+      if(err){
+        return callback(err)
+      }
+      if(resp.statusCode >= 400){
+        return callback(new Error(`isExistNewOauth: ${resp.statusCode}`))
+      }
+      // log.info("是否新版第三方用户存在："+json["isAccountExist"]);
+      if(json){
+        return callback(err, json["isAccountExist"])
+      }else{
+        return callback(new Error('----isExistNewOauth response body empty'))
+      }
+    }catch (err){
       return callback(err)
-    }
-    // log.info("是否新版第三方用户存在："+json["isAccountExist"]);
-    if(json){
-      return callback(err, json["isAccountExist"])
-    }else{
-      return callback(new Error('----isExistNewOauth response body empty'))
     }
   });
 }
@@ -58,12 +80,16 @@ function isExistNewOauth(key,value,callback){
 function toLogin(req, loginUrl, json, callback){
   log.warn("地址："+config.forwardUrl+req.url+"被代理到："+loginUrl);
 
-  var body = ''
-  for(var key in json){
+  try{
+    var body = ''
+    for(var key in json){
       if(body!=''){
-          body += '&'
+        body += '&'
       }
       body += (key+"="+json[key])
+    }
+  }catch (err){
+    return callback(err)
   }
 
   request({
@@ -77,7 +103,17 @@ function toLogin(req, loginUrl, json, callback){
     followRedirect: false,
     timeout: TIMEOUT_MILLS
   }, function(err, resp, body){
-    callback(err, resp, body)
+    try{
+      if(err){
+        return callback(err)
+      }
+      if(resp.statusCode >= 400){
+        return callback(new Error(`toLogin: ${resp.statusCode}`))
+      }
+      return callback(err, resp, body)
+    }catch (err){
+      return callback(err)
+    }
   })
 }
 /**
@@ -102,7 +138,17 @@ function toOauthLogin(req, loginUrl, json, callback){
     followRedirect: false,
     timeout: TIMEOUT_MILLS
   }, function(err, resp, body){
-    callback(err, resp, body)
+    try{
+      if(err){
+        return callback(err)
+      }
+      if(resp.statusCode >= 400){
+        return callback(new Error(`toOauthLogin: ${resp.statusCode}`))
+      }
+      return callback(err, resp, body)
+    }catch (err){
+      return callback(err)
+    }
   })
 }
 

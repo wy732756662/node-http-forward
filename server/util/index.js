@@ -90,13 +90,24 @@ function getParamsKey(oauthKey){
     return oauthKey
 }
 
-function logLowRequest(req){
+/**
+ * 用来打印异常消息：
+ * 1  如果返回statusCode大于等于400，那么记录错误
+ * 2  如果返回时间超过阀值，那么记录超时信息
+ * @param req
+ * @param proxyRes
+ * @returns {*|void}
+ */
+function logSlowRequest(req, proxyRes){
   if(!req.rsqTime){
     return consoleLogger.warn(`no rsqTime found, can not log low request!`)
   }
   const mills = new Date().getTime() - req.rsqTime
-  if(mills > config.lowRequestMills){
-    consoleLogger.warn(`low request: ${req.url}, mills: ${mills}`)
+  if(proxyRes && proxyRes.statusCode >= 400){
+    return consoleLogger.warn(`http error ${proxyRes.statusCode}: ${req.method} ${req.url}, mills: ${mills}`)
+  }
+  if(mills > config.slowRequestMills){
+    return consoleLogger.warn(`slow request: ${req.method} ${req.url}, mills: ${mills}`)
   }
 }
 
@@ -104,4 +115,4 @@ module.exports.isPhone = isPhone
 module.exports.isOld = isOld
 module.exports.getParamsKey = getParamsKey
 module.exports.processRedirectLocation = processRedirectLocation
-module.exports.logLowRequest = logLowRequest
+module.exports.logSlowRequest = logSlowRequest

@@ -21,7 +21,7 @@ app.post(config.loginAddress, function(req, res, next){
   try {
     loginService.forwardToLogin(req, res, function(err){
       //  记录慢请求的时间
-      util.logLowRequest(req)
+      util.logSlowRequest(req)
       if(err){
         next(err)
       }
@@ -41,7 +41,7 @@ Object.keys(config.oauth).forEach(function (oauthKey) {
       try {
         loginService.forwardToOauthLogin(req, res, oauthKey, originKey, function(err){
           //  记录慢请求的时间
-          util.logLowRequest(req)
+          util.logSlowRequest(req)
           if(err){
               next(err)
           }
@@ -61,9 +61,9 @@ app.all('*', function(req, res, next){
 // 错误处理
 app.use(function (err, req, res, next) {
   const status = err.status || 500
-  const message = err.message || 'error occurred in http forward layer'
-  if(err.status === 500){
-    consoleLogger.error(`app url: ${req.url}, error: \n ${err.stack}`)
+  const message = 'error occurred'
+  if(status >= 400){
+    consoleLogger.error(`app url ${status}: ${req.url}, error: \n ${err.stack}`)
   }
   res.status(status);
   res.end(message);
