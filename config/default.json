@@ -1,10 +1,78 @@
 {
+  "easyMonitor": {
+    "host": "127.0.0.1",
+    "port": 30000
+  },
+  "slowRequestMills": 2000,
+  "proxyTimeoutMills": 30000,
+  "logLevel": "all",
   "PORT": 8081,
-  "forwardUrl": "http://localhost:8081",
-  "forwardUrlNew": "https://betanew.rishiqing.com",
-  "forwardUrlOld": "https://betaold.rishiqing.com",
-  "forwardUrlNewReg": "^http[s]?:\\/\\/betanew\\.rishiqing\\.com",
-  "forwardUrlOldReg": "^http[s]?:\\/\\/betaold\\.rishiqing\\.com",
+  "forwardUrl": "https://beta.rishiqing.com",
+  "forwardUrlNew": "http://localhost:3001",
+//  "forwardUrlNew": "https://prodnew.rishiqing.com",
+//  "forwardUrlOld": "https://prodold.rishiqing.com",
+  "forwardUrlOld": "http://localhost:3001",
+  "forwardUrlNewReg": "^http[s]?:\\/\\/localhost:3001",
+//  "forwardUrlNewReg": "^http[s]?:\\/\\/127\\.0\\.0\\.1:8088",
+//  "forwardUrlOldReg": "^http[s]?:\\/\\/127\\.0\\.0\\.1:8080",
+  "forwardUrlOldReg": "^http[s]?:\\/\\/localhost:3001",
   "loginAddress": "/task/j_spring_security_check",
-  "checkUrl": "/check"
+  "checkUrl": "/check",
+  "oauth": {
+    "weiXin": {
+      "findWxOpenIdByUser": {
+        "url": "/task/weixinOauth/findWxOpenIdByUser",
+        "key": "unionid"
+      },
+      "phoneLoginWx": {
+        "url": "/task/weixinOauth/phoneLoginWx",
+        "key": "unionid"
+      },
+      "androidLogin": {
+        "url": "/task/v2/android/phoneOauth/login",
+        "key": "unionId"
+      }
+    },
+    "sina": {
+      "findSinaOpenId": {
+        "url": "/task/sinaOauth/findSinaOpenId",
+        "key": "sinaUid"
+      },
+      "loginBySina": {
+        "url": "/task/sinaOauth/loginBySina",
+        "key": "sinaUid"
+      },
+      "phoneLoginSina": {
+        "url": "/task/sinaOauth/phoneLoginSina",
+        "key": "sinaUid"
+      },
+      "verifySinaBinding": {
+        "url": "/task/sinaOauth/verifySinaBinding",
+        "key": "openId"
+      }
+    },
+    "qq": {
+      "findQqOpenId": {
+        "url": "/task/qqOauth/findQqOpenId",
+        "key": "openid"
+      },
+      "loginByQq": {
+        "url": "/task/qqOauth/loginByQq",
+        "key": "openid"
+      },
+      "phoneLoginQq": {
+        "url": "/task/qqOauth/phoneLoginQq",
+        "key": "openid"
+      },
+      "verifyQqBinding": {
+        "url": "/task/qqOauth/verifyQqBinding",
+        "key": "openId"
+      }
+    },
+    "xiaoMi": {
+
+    }
+  },
+  "verifyOauthExistUrl": "/task/v1/register/isOauthRegistered",
+  "newTokenPrefix": "new_"
 }

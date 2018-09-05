@@ -16,5 +16,6 @@ WORKDIR /usr/src/rishiqing-http-navigator
 COPY . .
 RUN npm install --registry=https://registry.npm.taobao.org
 
+# start alinode agent and index
 EXPOSE 3000
 CMD ["node", "server/index.js"]
