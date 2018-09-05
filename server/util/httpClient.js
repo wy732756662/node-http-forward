@@ -31,7 +31,12 @@ function isExistNew(username, callback){
       }
       // log.info("是否新版用户存在："+json["isAccountExist"]);
       if(json){
-        return callback(err, json["isAccountExist"])
+        //  检查返回值是否合法
+        const isNew = json["isAccountExist"]
+        if(isNew !== true && isNew !== false){
+          return callback(new Error(`isExistNew json["isAccountExist"] error: ${resp.statusCode}, ${isNew}`))
+        }
+        return callback(err, isNew)
       }else{
         return callback(new Error('----isExistNew response body empty'))
       }
